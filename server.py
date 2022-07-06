@@ -1,4 +1,5 @@
 import socket, sys, cv2, pickle, struct
+import misc-utils
 from colorama import *
 
 port = 29532
@@ -46,24 +47,7 @@ def main():
             print("[REMOTE] - " + Fore.GREEN + "Accepted connection from" + Style.RESET_ALL, addr[0])
   
             ## Send video stream to client
-            pos_frame = stream.get(cv2.cv.CV_CAP_PROP_POS_FRAMES)
             while True:
-                flag, frame = stream.read()
-                if flag:
-                    frame = cPickle.dumps(frame)
-                    size = len(frame)
-                    p = struct.pack('I', size)
-                    frame = p + frame
-                    client_socket.sendall(frame)
-                else:
-                    stream.set(cv2.cv.CV_CAP_PROP_POS_FRAMES, pos_frame-1)
-      
-                if stream.get(cv2.cv.CV_CAP_PROP_POS_FRAMES) == stream.get(cv2.cv.CV_CAP_PROP_FRAME_COUNT):
-                    size = 10
-                    p = struct.pack("I", size)
-                    client_socket.send(p)
-                    client_socket.send('')
-                    break
   
             ## Close connection
             conn.close()
