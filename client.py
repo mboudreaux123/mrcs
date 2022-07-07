@@ -1,5 +1,5 @@
 import socket
-import misc-utils
+import miscUtils
 
 port = 29532
 server_ip = '192.168.7.109'

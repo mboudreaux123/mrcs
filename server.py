@@ -1,11 +1,8 @@
 import socket, sys, cv2, pickle, struct
-import misc-utils
+import miscUtils
 from colorama import *
 
 port = 29532
-
-def printBorder(length = 64):
-    print("-" * length)
 
 def initialScreen():
     printBorder()
@@ -43,14 +40,12 @@ def main():
         
         ## If there is a remote connection, let client control bot
         if conn:
-            stream = cv2.VideoCapture(0)
             print("[REMOTE] - " + Fore.GREEN + "Accepted connection from" + Style.RESET_ALL, addr[0])
   
             ## Send video stream to client
-            while True:
+            #while True:
   
             ## Close connection
-            conn.close()
             print("[REMOTE] - " + Fore.RED + "Connection closed" + Style.RESET_ALL)
             
         # Otherwise, control robot locally
