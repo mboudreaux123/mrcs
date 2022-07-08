@@ -6,7 +6,7 @@
 ## git repository and execute the code afterwards.
 
 CURRENT_DIR=$(dirname $(readlink -f $0))
-SERVER_EXEC='/robot/main.py'
+SERVER_EXEC='server.py'
 #SERVER_EXEC='/robot/ds4move.py'
 
 ## TODO: Check if internet connection exists.
