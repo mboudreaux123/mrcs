@@ -2,7 +2,8 @@ import socket
 import miscUtils
 
 port = 29532
-server_ip = '192.168.7.109'
+#server_ip = "192.168.7.109"
+server_ip = "localhost"
  
 ## Create a socket instance
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)                
