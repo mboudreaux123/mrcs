@@ -1,16 +1,12 @@
-import socket, sys, cv2, pickle, struct
-import miscUtils
+import socket, sys, cv2, pickle, struct, time, os
+from _thread import *
+import threading
 from colorama import *
+from miscUtils import *
 
-port = 29532
-
-def initialScreen():
+def initScreen():
     printBorder()
     print("----------------"  + Fore.MAGENTA + " PiCar Server " + Style.RESET_ALL + "----------------")
-    print()
-    print("Host: TODO")
-    print("IP: TODO")
-    print("Port:", port)
     print()
     
 def terminateScreen():
@@ -20,38 +16,79 @@ def terminateScreen():
     print(Fore.RED + "Server terminated" + Style.RESET_ALL)
     print()
     printBorder()
-    
-def main():
-    init()
-    initialScreen()
 
-    ## Create a socket instance
-    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+class server():
+    def __init__(self, port = 29532, remoteAllowed = True):
+        self.remoteAllowed = remoteAllowed
+        self.remoteEnabled = False
 
-    ## Listen on specified port
-    sock.bind(('', port))  
-    sock.listen(5)
-    print("Server listening...")
+        ## Enable networking is remote is allowed
+        if self.remoteAllowed:
+            self.port = port
+            self.sock = socket.socket()
+            self.clientConn = None
+            self.clientAddr = None
 
-    ## Establish connection
-    while True:
+            ## Set server into listen mode
+            self.sock.bind(('', port))    
+            self.sock.listen(5)
+
+            ## Print out network stats
+            print("Host: TODO")
+            print("IP: TODO")
+            print("Port:", port)
+            print()
+
+    ## Thread to check for when connection to server is made by client
+    def socketThread(self):
+        while True:
+            if self.remoteAllowed:
+                if not self.remoteEnabled:
+                    self.clientConnect, self.clientAddress = self.sock.accept()
+                    self.remoteEnabled = True
+                    print("[REMOTE] - " + Fore.GREEN + "Accepted connection from" + Style.RESET_ALL, self.clientAddress[0])
+
+    ## Process inputs and perform action based on local server input
+    def localControl(self):
+        print("[LOCAL] - Enabled")
+        # Take controller input from 
+        # Process controller input
+
+    ## Process inputs and perform action based on remote client input
+    def remoteControl(self):
         ## Attempt to accept incoming connection
-        conn, addr = sock.accept()
-        
         ## If there is a remote connection, let client control bot
-        if conn:
-            print("[REMOTE] - " + Fore.GREEN + "Accepted connection from" + Style.RESET_ALL, addr[0])
-  
+        if self.remoteEnabled and self.clientConnect:
+
             ## Send video stream to client
-            #while True:
-  
-            ## Close connection
+            self.clientConnect.send("sdijiopajdoiahohraopihefpahpvaoug".encode())
+            
+            ## Close client connections
+            self.clientConnect.close()
+            self.clientConn = None
+            self.clientAddr = None
+            self.remoteEnabled = False
+            time.sleep(5)
             print("[REMOTE] - " + Fore.RED + "Connection closed" + Style.RESET_ALL)
             
-        # Otherwise, control robot locally
+        ## Otherwise, control robot locally
         else:
-            print("[LOCAL] - Enabled")
-            # Take controller input from 
+            self.localControl()
+
+    def run(self):
+        if self.remoteAllowed:
+            x = threading.Thread(target=self.socketThread, args=())
+            x.start()
+            while True:
+                self.remoteControl()
+        else:
+            while True:
+                self.localControl()
+
+def main():
+    init()
+    carserver = server()
+    carserver.run()
 
 if __name__ == '__main__':
     try:
