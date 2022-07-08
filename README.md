@@ -1,8 +1,10 @@
 # Nexrith's Robot Control Software (NRCS)
 
 ## Server
+TODO
 
 ## Client
+TODO
 
 ## Installation
 TODO
