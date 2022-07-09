@@ -1,5 +1,9 @@
-import socket, sys, cv2, pickle, struct, time, os
+import socket, sys, cv2, pickle, struct, time, os, pygame
+import robot.ds4, robot.motor, robot.steer, robot.head, robot.servo_manager
 from _thread import *
+
+
+
 import threading
 from colorama import *
 from miscUtils import *
@@ -30,14 +34,25 @@ class server():
             self.clientAddr = None
 
             ## Set server into listen mode
-            self.sock.bind(('', port))    
+            self.sock.bind(('', self.port))    
             self.sock.listen(5)
+
+            self.thread = threading.Thread(target=self.socketThread, args=())
+            self.start()
 
             ## Print out network stats
             print("Host: TODO")
             print("IP: TODO")
-            print("Port:", port)
+            print("Port:", self.port)
             print()
+    
+    def kill(self):
+        ## Close client connections
+        self.clientConnect.close()
+        self.clientConn = None
+        self.clientAddr = None
+        self.remoteEnabled = False
+
 
     ## Thread to check for when connection to server is made by client
     def socketThread(self):
@@ -77,8 +92,6 @@ class server():
 
     def run(self):
         if self.remoteAllowed:
-            x = threading.Thread(target=self.socketThread, args=())
-            x.start()
             while True:
                 self.remoteControl()
         else:
@@ -92,11 +105,14 @@ def main():
 
 if __name__ == '__main__':
     try:
+        initScreen()
         main()
         terminateScreen()
     except KeyboardInterrupt:
         terminateScreen()
         sys.exit(0)
+
+
 
 
 
