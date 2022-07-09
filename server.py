@@ -1,19 +1,21 @@
 import socket, sys, cv2, pickle, struct, time, os, pygame
-import robot.ds4, robot.motor, robot.steer, robot.head, robot.servo_manager
+from adafruit_pca9685 import PCA9685
+
+import robot.miscUtils, robot.ds4
+#robot.motor, robot.steer, robot.head, robot.servo_manager, robot.steer
 from _thread import *
 
 
 
 import threading
-from colorama import *
-from miscUtils import *
+from robot.miscUtils import *
 
-def initScreen():
+def initServerScreen():
     printBorder()
     print("----------------"  + Fore.MAGENTA + " PiCar Server " + Style.RESET_ALL + "----------------")
     print()
     
-def terminateScreen():
+def terminateServerScreen():
     print()
     printBorder()
     print()
@@ -25,6 +27,8 @@ class server():
     def __init__(self, port = 29532, remoteAllowed = True):
         self.remoteAllowed = remoteAllowed
         self.remoteEnabled = False
+        self.steer = robot.steer.Steer()
+        self.controller = robot.ds4.DS4()
 
         ## Enable networking is remote is allowed
         if self.remoteAllowed:
@@ -37,8 +41,9 @@ class server():
             self.sock.bind(('', self.port))    
             self.sock.listen(5)
 
+            ## Start thread to listen for remote connetion
             self.thread = threading.Thread(target=self.socketThread, args=())
-            self.start()
+            self.thread.start()
 
             ## Print out network stats
             print("Host: TODO")
@@ -68,6 +73,10 @@ class server():
         print("[LOCAL] - Enabled")
         # Take controller input from 
         # Process controller input
+        self.controller.loadInputs()
+        print(self.controller.getAxisAt(robot.ds4.AXIS_LEFT_STICK_X))
+        steerFactor = robot.miscUtils.convertRange(-1.0, 1.0, robot.steer.getMaxAngle(), robot.steer.getMinAngle(), robot.ds4.getAxisAt(robot.ds4.AXIS_LEFT_STICK_X))
+        self.steer.turn(steerFactor)
 
     ## Process inputs and perform action based on remote client input
     def remoteControl(self):
@@ -99,17 +108,16 @@ class server():
                 self.localControl()
 
 def main():
-    init()
     carserver = server()
     carserver.run()
 
 if __name__ == '__main__':
     try:
-        initScreen()
+        initServerScreen()
         main()
         terminateScreen()
     except KeyboardInterrupt:
-        terminateScreen()
+        terminateServerScreen()
         sys.exit(0)
 
 

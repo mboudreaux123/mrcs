@@ -1,4 +1,4 @@
-import Adafruit_PCA9685, fn
+from adafruit_pca9685 import PCA9685
 from colorama import *
 
 PREFIX = "[" + Fore.GREEN + "steer" + Style.RESET_ALL + "] -"
@@ -12,7 +12,7 @@ class Steer():
         self.__MIN_ANGLE = 100
         self.__MAX_ANGLE = 560
         self.__MID_ANGLE = ((self.__MAX_ANGLE - self.__MIN_ANGLE) / 2) + self.__MIN_ANGLE
-        self.__pwm = Adafruit_PCA9685.PCA9685()
+        self.__pwm = PCA9685()
         self.__pwm.set_pwm_freq(50)
         self.__currentAngle = self.__MID_ANGLE
         self.__prevAngle = 0
