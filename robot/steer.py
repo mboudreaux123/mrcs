@@ -37,7 +37,7 @@ class Steer():
                 self.__currentAngle = self.__UPPER_LIMIT
 
         ## Set servo to current angle
-        self.__pwm.set_pwm(0, 0, self.__currentAngle)
+        self.__steerServo.angle = self.__currentAngle
 
         ## Set previous angle as 
         if not self.__currentAngle == self.__prevAngle:
