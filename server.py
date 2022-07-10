@@ -1,6 +1,6 @@
 import socket, sys, cv2, pickle, struct, time, os, pygame, select
 from robot.miscUtils import *
-import robot.ds4#, robot.steer
+import robot.ds4, robot.steer
 #robot.motor, robot.steer, robot.head, robot.servo_manager
 from _thread import *
 
@@ -13,7 +13,7 @@ class server():
     def __init__(self, port = 29532, remoteAllowed = True):
         self.remoteAllowed = remoteAllowed
         self.remoteEnabled = False
-        #self.steer = robot.steer.Steer()
+        self.steer = robot.steer.Steer()
         self.controller = robot.ds4.DS4()
 
         ## Enable networking is remote is allowed
@@ -99,7 +99,7 @@ class server():
 
             # Process controller input
             print(self.controller.getAxisAt(robot.ds4.AXIS_LEFT_STICK_X))
-            steerFactor = robot.miscUtils.convertRange(-1.0, 1.0, robot.steer.getMaxAngle(), robot.steer.getMinAngle(), robot.ds4.getAxisAt(robot.ds4.AXIS_LEFT_STICK_X))
+            steerFactor = robot.miscUtils.convertRange(-1.0, 1.0, self.steer.getMaxAngle(), self.steer.getMinAngle(), robot.ds4.getAxisAt(robot.ds4.AXIS_LEFT_STICK_X))
             self.steer.turn(steerFactor)
             time.sleep(0.05)
         print("[LOCAL] - Disabled")
