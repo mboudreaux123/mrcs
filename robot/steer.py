@@ -1,22 +1,27 @@
 
-from colorama import *
-
-PREFIX = "[" + Fore.GREEN + "steer" + Style.RESET_ALL + "] -"
+from board import SCL, SDA
+import busio
+from adafruit_motor import servo
+from adafruit_pca9685 import PCA9685
 
 class Steer():
 
     def __init__(self):
-
-        self.__LOWER_LIMIT = 140 # Cant be lower than MIN_ANGLE
-        self.__UPPER_LIMIT = 520 # Cant be higher than MAX_ANGLE
-        self.__MIN_ANGLE = 100
-        self.__MAX_ANGLE = 560
+        self.__MIN_ANGLE = 0
+        self.__MAX_ANGLE = 180
+        self.__LOWER_LIMIT = self.__MIN_ANGLE + 40 # Cant be lower than MIN_ANGLE
+        self.__UPPER_LIMIT = self.__MAX_ANGLE - 40 # Cant be higher than MAX_ANGLE
         self.__MID_ANGLE = ((self.__MAX_ANGLE - self.__MIN_ANGLE) / 2) + self.__MIN_ANGLE
-        self.__pwm = PCA9685.PCA9685()
-        self.__pwm.set_pwm_freq(50)
+        self.__i2c_bus = busio.I2C(SCL, SDA)
+        self.__pca = PCA9685(self.__i2c_bus)
+        self.__pca.frequency = 50
+        self.__steerServo = servo.Servo(self.__pca.channels[0])
         self.__currentAngle = self.__MID_ANGLE
         self.__prevAngle = 0
         self.turn(self.__currentAngle)
+
+    def destroy(self):
+        self.__pca.deinit()
 
     def turn(self, angle):
 
