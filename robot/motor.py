@@ -1,7 +1,7 @@
 # Lesson 6 How to Control DC Motor
 # https://adeept.com/learn/tutorial-252.html
 
-import RPi.GPIO as GPIO, sys, fn
+import RPi.GPIO as GPIO, sys
 
 Motor_A_EN    = 4
 Motor_B_EN    = 17
@@ -44,7 +44,7 @@ def init():
     except:
         pass
 
-def disable():
+def destroy():
     stop()
     GPIO.cleanup()
 
@@ -75,9 +75,6 @@ def reverse(speed):
 def drive(speed):
     global prevSpeed
     speed = int(speed)
-    if not speed == prevSpeed:
-        print(PREFIX, "Speed:", speed)
-        fn.removeLastLine()
     if speed > 0:
         if speed > MAX_SPEED:
             speed = MAX_SPEED
