@@ -99,7 +99,7 @@ class server():
 
             # Process controller input
             print(self.controller.getAxisAt(robot.ds4.AXIS_LEFT_STICK_X))
-            steerFactor = robot.miscUtils.convertRange(-1.0, 1.0, self.steer.getMaxAngle(), self.steer.getMinAngle(), robot.ds4.getAxisAt(robot.ds4.AXIS_LEFT_STICK_X))
+            steerFactor = robot.miscUtils.convertRange(-1.0, 1.0, self.steer.getMaxAngle(), self.steer.getMinAngle(), self.controller.getAxisAt(robot.ds4.AXIS_LEFT_STICK_X))
             self.steer.turn(steerFactor)
             time.sleep(0.05)
         print("[LOCAL] - Disabled")
