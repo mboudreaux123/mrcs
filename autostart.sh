@@ -16,4 +16,4 @@ SERVER_EXEC='server.py'
 ## Get the latest code from git repo
 
 ## Run the robot program
-python3 "${CURRENT_DIR}${SERVER_EXEC}"
+python3 "${CURRENT_DIR}/${SERVER_EXEC}"
