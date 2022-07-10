@@ -1,5 +1,4 @@
 import socket, sys, cv2, pickle, struct, time, os, pygame, select
-from sympy import ExactQuotientFailed
 from robot.miscUtils import *
 import robot.ds4#, robot.steer
 #robot.motor, robot.steer, robot.head, robot.servo_manager
