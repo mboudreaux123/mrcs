@@ -9,7 +9,7 @@ Motor_B_EN    = 17
 Motor_A_Pin1  = 26
 Motor_A_Pin2  = 21
 Motor_B_Pin1  = 27
-Motor_B_Pin2  = 18100
+Motor_B_Pin2  = 18
 
 MIN_SPEED = 0
 MAX_SPEED = 100
