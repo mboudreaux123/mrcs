@@ -11,7 +11,7 @@ class server():
         self.remoteEnabled = False
         self.steer = robot.steer.Steer()
         self.controller = robot.ds4.DS4()
-        robot.motor.init()
+        ##robot.motor.init()
 
         ## Enable networking is remote is allowed
         if self.remoteAllowed:
