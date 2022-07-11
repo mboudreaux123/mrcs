@@ -1,8 +1,11 @@
-
 from board import SCL, SDA
 import busio
 from adafruit_motor import servo
 from adafruit_pca9685 import PCA9685
+from miscUtils import *
+from colorama import *
+
+PREFIX = "[" + Fore.MAGENTA + "STEER" + Style.RESET_ALL + "] -"
 
 class Steer():
 
@@ -12,6 +15,7 @@ class Steer():
         self.__LOWER_LIMIT = self.__MIN_ANGLE + 40 # Cant be lower than MIN_ANGLE
         self.__UPPER_LIMIT = self.__MAX_ANGLE - 40 # Cant be higher than MAX_ANGLE
         self.__MID_ANGLE = ((self.__MAX_ANGLE - self.__MIN_ANGLE) / 2) + self.__MIN_ANGLE
+
         self.__i2c_bus = busio.I2C(SCL, SDA)
         self.__pca = PCA9685(self.__i2c_bus)
         self.__pca.frequency = 50
@@ -25,7 +29,7 @@ class Steer():
 
     def turn(self, angle):
 
-        # Ensure angle is a integer
+        ## Ensure angle is a integer
         self.__currentAngle = int(angle)
 
         ## Check boundaries of angle

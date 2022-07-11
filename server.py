@@ -1,11 +1,7 @@
 import socket, sys, cv2, pickle, struct, time, os, pygame, select
 from robot.miscUtils import *
-import robot.ds4, robot.steer, robot.motor
-#robot.steer, robot.head, robot.servo_manager
+import robot.ds4, robot.steer, robot.motor, robot.head
 from _thread import *
-
-
-
 import threading
 from robot.miscUtils import *
 
@@ -105,10 +101,12 @@ class server():
             self.steer.turn(steerFactor)
 
             ## Drive based on input
-            l2 = robot.micsUtils.convert_range(-1.0, 1.0, robot.motor.MAX_SPEED, robot.motor.MIN_SPEED, self.controller.getAxisAt(robot.ds4.AXIS_L2))
-            r2 = robot.micsUtils.convert_range(-1.0, 1.0, robot.motor.MAX_SPEED, robot.motor.MIN_SPEED, self.controller.getAxisAt(robot.ds4.AXIS_R2))
-            motorSpeed = r2 - l2
-            robot.motor.drive(motorSpeed)
+            #l2 = robot.micsUtils.convert_range(-1.0, 1.0, robot.motor.MAX_SPEED, robot.motor.MIN_SPEED, self.controller.getAxisAt(robot.ds4.AXIS_L2))
+            #r2 = robot.micsUtils.convert_range(-1.0, 1.0, robot.motor.MAX_SPEED, robot.motor.MIN_SPEED, self.controller.getAxisAt(robot.ds4.AXIS_R2))
+            #motorSpeed = r2 - l2
+            #robot.motor.drive(motorSpeed)
+
+            ## Turn head based on input
 
             time.sleep(0.05)
         print("[LOCAL] - Disabled")
@@ -138,50 +136,6 @@ if __name__ == '__main__':
     except KeyboardInterrupt:
         terminateServerScreen()
         sys.exit(0)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
