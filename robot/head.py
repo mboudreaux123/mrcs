@@ -2,7 +2,6 @@ from board import SCL, SDA
 import busio
 from adafruit_motor import servo
 from adafruit_pca9685 import PCA9685
-from miscUtils import *
 from colorama import *
 
 PREFIX = "[" + Fore.MAGENTA + "HEAD" + Style.RESET_ALL + "] -"
