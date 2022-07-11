@@ -69,8 +69,9 @@ class server():
     def streamVideo(self):
         ## Video streaming stuff here
         if self.remoteEnabled and self.clientConnect:
-            print("Stream video")
-            self.clientConnect.send("sdijiopajdoiahohraopihefpahpvaoug".encode())
+            while True:
+                print("Stream video")
+                self.clientConnect.send("sdijiopajdoiahohraopihefpahpvaoug".encode())
 
     ## Process inputs and perform action based on remote client input
     def remoteControl(self):
