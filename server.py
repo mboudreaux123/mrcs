@@ -9,10 +9,6 @@ class server():
     def __init__(self, port = 29532, remoteAllowed = True):
         self.remoteAllowed = remoteAllowed
         self.remoteEnabled = False
-        self.controller = robot.ds4.DS4()
-        self.steer = robot.steer.Steer()
-        ##robot.motor.init()
-        self.head = robot.head.Head()
 
         ## Enable networking is remote is allowed
         if self.remoteAllowed:
@@ -36,6 +32,12 @@ class server():
             print("IP: " + self.hostip)
             print("Port:", self.port)
             print()
+        
+        ## Initialize basic functiinality
+        self.controller = robot.ds4.DS4()
+        self.steer = robot.steer.Steer()
+        robot.motor.init()
+        self.head = robot.head.Head()
     
     def listenForConnection(self):
         if self.remoteAllowed:
