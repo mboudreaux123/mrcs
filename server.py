@@ -104,10 +104,10 @@ class server():
             self.steer.turn(steerFactor)
 
             ## Drive based on input
-            #l2 = robot.micsUtils.convert_range(-1.0, 1.0, robot.motor.MAX_SPEED, robot.motor.MIN_SPEED, self.controller.getAxisAt(robot.ds4.AXIS_L2))
-            #r2 = robot.micsUtils.convert_range(-1.0, 1.0, robot.motor.MAX_SPEED, robot.motor.MIN_SPEED, self.controller.getAxisAt(robot.ds4.AXIS_R2))
-            #motorSpeed = r2 - l2
-            #robot.motor.drive(motorSpeed)
+            l2 = robot.micsUtils.convert_range(-1.0, 1.0, robot.motor.MAX_SPEED, robot.motor.MIN_SPEED, self.controller.getAxisAt(robot.ds4.AXIS_L2))
+            r2 = robot.micsUtils.convert_range(-1.0, 1.0, robot.motor.MAX_SPEED, robot.motor.MIN_SPEED, self.controller.getAxisAt(robot.ds4.AXIS_R2))
+            motorSpeed = r2 - l2
+            robot.motor.drive(motorSpeed)
 
             ## Turn head based on input
             headX = robot.miscUtils.convertRange(-1.0, 1.0, self.steer.getMaxAngle(), self.steer.getMinAngle(), self.controller.getAxisAt(robot.ds4.AXIS_RIGHT_STICK_X))
