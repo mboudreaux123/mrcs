@@ -9,9 +9,10 @@ class server():
     def __init__(self, port = 29532, remoteAllowed = True):
         self.remoteAllowed = remoteAllowed
         self.remoteEnabled = False
-        self.steer = robot.steer.Steer()
         self.controller = robot.ds4.DS4()
+        self.steer = robot.steer.Steer()
         ##robot.motor.init()
+        self.head = robot.head.Head()
 
         ## Enable networking is remote is allowed
         if self.remoteAllowed:
@@ -107,11 +108,16 @@ class server():
             #robot.motor.drive(motorSpeed)
 
             ## Turn head based on input
+            headX = robot.miscUtils.convertRange(-1.0, 1.0, self.steer.getMaxAngle(), self.steer.getMinAngle(), self.controller.getAxisAt(robot.ds4.AXIS_RIGHT_STICK_X))
+            headY = robot.miscUtils.convertRange(-1.0, 1.0, self.steer.getMaxAngle(), self.steer.getMinAngle(), self.controller.getAxisAt(robot.ds4.AXIS_RIGHT_STICK_Y))
+            self.head.turnX(headX)
+            self.head.turnY(headY)
 
             time.sleep(0.05)
         print("[LOCAL] - Disabled")
        
     def run(self):
+        time.sleep(.5)
         while True:
             if self.remoteAllowed:
                 ## Attempt to accept incoming connection
