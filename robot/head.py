@@ -17,8 +17,8 @@ class Head():
         self.__UPPER_LIMIT_X = self.__MAX_ANGLE_X - 0 # Cant be higher than MAX_ANGLE
         self.__LOWER_LIMIT_Y = self.__MIN_ANGLE_Y + 0 # Cant be lower than MIN_ANGLE
         self.__UPPER_LIMIT_Y = self.__MAX_ANGLE_Y - 0 # Cant be higher than MAX_ANGLE
-        self.__MID_ANGLE_X = ((self.__MAX_ANGLE_X - self.__MIN_ANGLE_X) / 2) + self.__MIN_ANGLE
-        self.__MID_ANGLE_Y = ((self.__MAX_ANGLE_Y - self.__MIN_ANGLE_Y) / 2) + self.__MIN_ANGLE
+        self.__MID_ANGLE_X = ((self.__MAX_ANGLE_X - self.__MIN_ANGLE_X) / 2) + self.__MIN_ANGLE_X
+        self.__MID_ANGLE_Y = ((self.__MAX_ANGLE_Y - self.__MIN_ANGLE_Y) / 2) + self.__MIN_ANGLE_Y
 
         self.__i2c_bus = busio.I2C(SCL, SDA)
         self.__pca = PCA9685(self.__i2c_bus)
