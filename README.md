@@ -1,4 +1,4 @@
-# Nexrith's Robot Control Software (NRCS)
+# Michael's Robot Control Software (MRCS)
 
 ## Server
 TODO
